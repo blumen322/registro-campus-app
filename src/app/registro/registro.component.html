@@ -1,0 +1,57 @@
+<nav>
+  <span class="logo">USMP — Campus</span>
+  <div>
+    <a routerLink="/registro">Registro</a>
+    <a routerLink="/historial">Historial</a>
+    <a href="#" (click)="salir(); $event.preventDefault()" style="opacity:0.7">Salir</a>
+  </div>
+</nav>
+
+<div class="contenedor">
+  <div class="card">
+    <h2 style="color:var(--rojo);margin-bottom:1.5rem;font-size:1.3rem">Registrar alumno</h2>
+
+    <div class="alerta-error" *ngIf="err">{{ err }}</div>
+    <div class="alerta-ok" *ngIf="ok">{{ ok }}</div>
+
+    <div *ngIf="!mostrarQr">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 1rem">
+        <div class="campo" style="grid-column:1/-1">
+          <label>Nombre completo *</label>
+          <input type="text" [(ngModel)]="alumno.nom" placeholder="Apellidos y nombres">
+        </div>
+        <div class="campo">
+          <label>Código de alumno *</label>
+          <input type="text" [(ngModel)]="alumno.cod" placeholder="Ej: 2024001">
+        </div>
+        <div class="campo">
+          <label>Correo *</label>
+          <input type="email" [(ngModel)]="alumno.email" placeholder="correo@usmp.pe">
+        </div>
+        <div class="campo" style="grid-column:1/-1">
+          <label>Facultad *</label>
+          <select [(ngModel)]="alumno.fac">
+            <option value="">Selecciona una facultad</option>
+            <option *ngFor="let f of facultades" [value]="f">{{ f }}</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Teléfono</label>
+          <input type="tel" [(ngModel)]="alumno.tel" placeholder="Opcional">
+        </div>
+      </div>
+      <button class="btn-rojo" (click)="guardar()" [disabled]="cargando">
+        {{ cargando ? 'Guardando...' : 'Registrar y generar QR' }}
+      </button>
+    </div>
+
+    <div *ngIf="mostrarQr" style="text-align:center">
+      <p style="font-weight:600;color:var(--rojo);margin-bottom:1rem">Código QR generado</p>
+      <canvas #qrCanvas style="border:1px solid #eee;border-radius:8px"></canvas>
+      <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.75rem">
+        <button class="btn-rojo" (click)="descargarPDF()">Descargar credencial PDF</button>
+        <button class="btn-gris" (click)="limpiar()">Registrar otro alumno</button>
+      </div>
+    </div>
+  </div>
+</div>

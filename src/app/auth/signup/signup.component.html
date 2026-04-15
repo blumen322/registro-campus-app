@@ -1,0 +1,28 @@
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--gris)">
+  <div class="card" style="width:100%;max-width:420px">
+    <div style="text-align:center;margin-bottom:2rem">
+      <div style="font-size:2rem;color:var(--rojo);font-weight:800;letter-spacing:1px">USMP</div>
+      <div style="color:#666;font-size:0.9rem;margin-top:0.25rem">Crear cuenta de acceso</div>
+    </div>
+
+    <div class="alerta-error" *ngIf="err">{{ err }}</div>
+
+    <div class="campo">
+      <label>Correo electrónico</label>
+      <input type="email" [(ngModel)]="email" placeholder="correo@usmp.pe">
+    </div>
+    <div class="campo">
+      <label>Contraseña</label>
+      <input type="password" [(ngModel)]="pass" placeholder="Mínimo 6 caracteres">
+    </div>
+    <div class="campo">
+      <label>Repetir contraseña</label>
+      <input type="password" [(ngModel)]="pass2" placeholder="••••••••">
+    </div>
+
+    <button class="btn-rojo" (click)="registrar()" [disabled]="cargando">
+      {{ cargando ? 'Creando cuenta...' : 'Crear cuenta' }}
+    </button>
+    <button class="btn-gris" routerLink="/login">Ya tengo cuenta</button>
+  </div>
+</div>

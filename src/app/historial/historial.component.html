@@ -1,0 +1,67 @@
+<nav>
+  <span class="logo">USMP — Campus</span>
+  <div>
+    <a routerLink="/registro">Registro</a>
+    <a routerLink="/historial">Historial</a>
+    <a href="#" (click)="salir(); $event.preventDefault()" style="opacity:0.7">Salir</a>
+  </div>
+</nav>
+
+<div class="contenedor">
+  <div class="card" style="margin-bottom:1.5rem">
+    <h2 style="color:var(--rojo);margin-bottom:1.25rem;font-size:1.3rem">Registrar entrada</h2>
+
+    <div class="alerta-error" *ngIf="err">{{ err }}</div>
+    <div class="alerta-ok" *ngIf="ok">{{ ok }}</div>
+
+    <div style="display:flex;gap:1rem;align-items:flex-end">
+      <div class="campo" style="flex:1;margin:0">
+        <label>Código del alumno</label>
+        <input type="text" [(ngModel)]="cod" placeholder="Escanea o escribe el código"
+               (keyup.enter)="registrarEntrada()">
+      </div>
+      <button class="btn-rojo" style="width:auto;padding:0.75rem 1.5rem;white-space:nowrap"
+              (click)="registrarEntrada()" [disabled]="cargando">
+        {{ cargando ? '...' : 'Registrar entrada' }}
+      </button>
+    </div>
+    <p style="font-size:0.8rem;color:#888;margin-top:0.5rem">
+      Tip: si tienes un lector QR físico, conecta al USB y el código se escribirá solo.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2 style="color:var(--rojo);margin-bottom:1.25rem;font-size:1.3rem">
+      Registros del día <span style="font-weight:400;font-size:1rem">({{ entradas.length }} entradas)</span>
+    </h2>
+
+    <div *ngIf="entradas.length === 0" style="text-align:center;color:#aaa;padding:2rem 0">
+      No hay entradas registradas aún.
+    </div>
+
+    <div style="overflow-x:auto" *ngIf="entradas.length > 0">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+        <thead>
+          <tr style="border-bottom:2px solid var(--rojo)">
+            <th style="text-align:left;padding:0.6rem 0.5rem;color:var(--rojo)">Código</th>
+            <th style="text-align:left;padding:0.6rem 0.5rem;color:var(--rojo)">Nombre</th>
+            <th style="text-align:left;padding:0.6rem 0.5rem;color:var(--rojo)">Facultad</th>
+            <th style="text-align:left;padding:0.6rem 0.5rem;color:var(--rojo)">Fecha</th>
+            <th style="text-align:left;padding:0.6rem 0.5rem;color:var(--rojo)">Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let e of entradas; let i = index"
+              [style.background]="i % 2 === 0 ? '#fafafa' : '#fff'"
+              style="border-bottom:1px solid #f0f0f0">
+            <td style="padding:0.6rem 0.5rem;font-weight:600">{{ e.cod }}</td>
+            <td style="padding:0.6rem 0.5rem">{{ e.nom }}</td>
+            <td style="padding:0.6rem 0.5rem;font-size:0.8rem;color:#666">{{ e.fac }}</td>
+            <td style="padding:0.6rem 0.5rem">{{ e.fecha }}</td>
+            <td style="padding:0.6rem 0.5rem;font-weight:600;color:var(--rojo)">{{ e.hora }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
